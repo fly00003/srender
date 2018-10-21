@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    
+    
+</head>
+<body>
+    
+    
+    <div id="canvas" style="width:1418px;height:904px" ></div>
+    <div style="color:black;" ><Button onclick=addNew() style="background-image:linear-gradient(#f5c153,#ea920d)">button</Button></div>
+   
+    
+    <script src="./dist/srender.js"></script>
+    <script type="text/javascript">
+    var dom=document.getElementById("canvas")
+
+    var sr = srender.init(dom)
+    var w = 1000
+    var h = 800
+
+    var sun=new srender.Circle({
+        shape:{
+            cx: 100,
+            cy: 100,
+            r: 50
+        }
+    })
+    var sun1=new srender.Circle({
+        shape:{
+            cx:70,
+            cy: 60,
+            r: 30
+        }
+    })
+    var sun2=new srender.Circle({
+        shape:{
+            cx:40,
+            cy: 60,
+            r: 10
+        }
+    })
+    sr.add(sun); 
+    sr.add(sun1); 
+    sr.add(sun2); 
+    //sr.remove(sun2);
+
+   // setInterval("ar()",1000)
+    var flag=false
+    function ar(){
+        if(flag){sr.add(sun2);flag=false }
+        else{sr.remove(sun2);flag=true;}
+    }
+    for (var i = 0; i < 10; ++i) {
+        var r = 50 * Math.random() + 20;
+        var circle = new srender.Circle({
+            shape: {
+                cx:(w * 0.6 - r * 2) * Math.random() + r + w * 0.2,
+                cy:(h * 0.6 - r * 2) * Math.random() + r + h * 0.2,
+                r: r
+            },
+    
+        })
+       
+        sr.add(circle);
+    }
+    var sun3=new srender.Circle({
+        shape:{
+            cx:70,
+            cy: 90,
+            r: 90
+        }
+    })
+    sr.add(sun3)
+    function addNew(){
+        console.log("add")
+        var c=new srender.Circle({
+        shape:{
+            cx: 10,
+            cy: 10,
+            r: 30
+        }
+    })
+    sr.add(c);
+    }
+   
+    </script>
+</body>
+
+
+
+</html>
+
+<!--style="border:1px dashed gray;">
