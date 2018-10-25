@@ -20,7 +20,7 @@
     var sr = srender.init(dom)
     var w = 1000
     var h = 800
-
+    var group=new srender.Group()
     var sun=new srender.Circle({
         shape:{
             cx: 100,
@@ -42,9 +42,10 @@
             r: 10
         }
     })
-    sr.add(sun); 
-    sr.add(sun1); 
-    sr.add(sun2); 
+    group.add(sun); 
+    group.add(sun1); 
+    group.add(sun2); 
+   
     //sr.remove(sun2);
 
    // setInterval("ar()",1000)
@@ -85,7 +86,7 @@
     })
     sr.add(c);
     }
-   
+    sr.add(group)
     </script>
 </body>
 

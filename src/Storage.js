@@ -1,4 +1,5 @@
 import * as util from './tool/util';
+import Group from './Group';
 
 var Storage = function () { // jshint ignore:line
     this._roots = [];
@@ -39,8 +40,9 @@ Storage.prototype = {
                 var el=roots[i]
                 this._displayList[this._displayListLen++] = el
             }
+           
     
-            displayList.length = this._displayListLen;
+          //  displayList.length = this._displayListLen;
     
            
         },
@@ -49,6 +51,11 @@ Storage.prototype = {
             if (el.__storage === this) {
                 return;
             }
+
+            if (el instanceof Group) {
+                el.addChildrenToStorage(this);
+            }
+
             this.addToStorage(el);
             this._roots.push(el);
         },
@@ -57,7 +64,12 @@ Storage.prototype = {
         delRoot: function (el) {
             if (el == null) {
                 // 不指定el清空
-    
+                for (var i = 0; i < this._roots.length; i++) {
+                    var root = this._roots[i];
+                    if (root instanceof Group) {
+                        root.delChildrenFromStorage(this);
+                    }
+                }
                 this._roots = [];
                 this._displayList = [];
                 this._displayListLen = 0;
@@ -77,6 +89,9 @@ Storage.prototype = {
             if (idx >= 0) {
                 this.delFromStorage(el);
                 this._roots.splice(idx, 1);
+                if (el instanceof Group) {
+                    el.delChildrenFromStorage(this);
+                }
             }
         },
     

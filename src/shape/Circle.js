@@ -1,8 +1,10 @@
 export default function Circle(opts){
     opts=opts || {};
     this.shape=opts.shape || { cx : 0, cy : 0, r : 20}
+    this.position=opts.position||[this.shape.cx,this.shape.cy]
     this.__dirty=true;
     this.__sr=null
+    this.trigger=false
    
 }
 Circle.prototype={

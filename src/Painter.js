@@ -1,4 +1,5 @@
 import Layer from './Layer'; 
+import Group from './Group';
 
 function parseInt10(val) {
     return parseInt(val, 10);
@@ -96,12 +97,23 @@ Painter.prototype = {
             var list = this.storage.getDisplayList(true);
             var length = this.storage._displayListLen;
             var ctx=this.tempLayer.ctx;
+            function simpleDraw(child){
+            //    child.trigger=false;
+                ctx.beginPath();
+              //  ctx.stokeStyle="red"
+                child.buildPath(ctx,child.shape)
+                ctx.stroke()
+            }
           //  console.log(this.cnv)
           if(paintAll){
             this.tempLayer.clear();
             for (var i = 0; i < length; i++) {
                 var el = list[i];
-                   // ctx.save();
+                if(el instanceof Group){
+                    el.traverse(simpleDraw,null)
+                }
+                else{
+                 //   console.log(el)
                     ctx.beginPath();
                    
                     ctx.stokeStyle="red"
@@ -110,7 +122,9 @@ Painter.prototype = {
                    // ctx.closePath();//一般在图形定义内部闭合
                  //   ctx.restore();
                 
-                    el.__dirty=false
+                    
+                   }
+                   el.__dirty=false
                    
 
                 
@@ -120,17 +134,22 @@ Painter.prototype = {
            else{
             for (var i = 0; i < length; i++) {
                 var el = list[i];
-             
-              console.log(el.shape)
+                
+            
                 if(el.__dirty===true){
+                
                    // ctx.save();
-                    ctx.beginPath();
-                   
-                    ctx.stokeStyle="red"
-                    el.buildPath(ctx,el.shape)
-                    ctx.stroke()
-                   // ctx.closePath();//一般在图形定义内部闭合
-                 //   ctx.restore();
+                   if(el instanceof Group){
+                    el.traverse(simpleDraw,null)
+                }else{ctx.beginPath();
+                    
+                     ctx.stokeStyle="red"
+                     el.buildPath(ctx,el.shape)
+                     ctx.stroke()
+                    // ctx.closePath();//一般在图形定义内部闭合
+                  //   ctx.restore();
+                }
+                    
                 
                     el.__dirty=false
                    

@@ -6,6 +6,7 @@ import Painter from './Painter';
 import Handler from './Handler';
 
 export {default as Circle} from './shape/Circle';
+export {default as Group} from './Group';
 var instances = {};
 
 
